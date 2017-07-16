@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Inventory</string>
+    <string name="image_info">Image</string>
+    <string name="empty_text">Inventory\'s empty.</string>
+    <string name="add_title">Add New Product</string>
+    <!-- Name -->
+    <string name="name_label">Product Name: </string>
+    <string name="product_name">Product Name</string>
+    <string name="hint_name">Enter Product Name</string>
+    <!-- Quantity -->
+    <string name="quantity_label">Quantity: </string>
+    <string name="product_quantity">Quantity</string>
+    <string name="hint_quantity">Enter Quantity</string>
+    <!-- Price -->
+    <string name="price_label">Price: </string>
+    <string name="product_price">Product Price</string>
+    <string name="hint_price">Enter Price</string>
+
+    <!-- Buttons -->
+    <string name="button_sell">Sell Product</string>
+    <string name="button_select_image">Select Image</string>
+    <string name="button_save">Save</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_order_more">Order More</string>
+    <string name="button_quantity">Modify Quantity</string>
+
+    <string name="action_insert_dummy_data">Insert Dummy Data</string>
+    <string name="action_delete_all_entries">Delete All Entries</string>
+
+    <!-- Permission messages -->
+    <string name="external_storage">External storage</string>
+    <string name="permission_title">Permission requirement</string>
+    <string name="permission_message">Permission is required</string>
+    <string name="permission_denied">Permission Denied</string>
+
+    <string name="add_product">Add Product</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit_product">Edit Product</string>
+    <string name="delete_message">Do you want to delete this product?</string>
+    <string name="delete">Delete</string>
+    <string name="unsaved_changes_dialog">Discard your changes and quit editing?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep Editing</string>
+    <string name="ok">OK</string>
+
+    <!-- Order Message -->
+    <string name="email_subject">Order for</string>
+    <string name="hi">Hi,</string>
+    <string name="message">I would like to order....</string>
+    <string name="product_name_title">Product Name:</string>
+    <string name="thank">Thank you!</string>
+
+    <string name="zero">0</string>
+
+</resources>
