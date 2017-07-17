@@ -51,5 +51,7 @@
     <string name="thank">Thank you!</string>
 
     <string name="zero">0</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
 
 </resources>

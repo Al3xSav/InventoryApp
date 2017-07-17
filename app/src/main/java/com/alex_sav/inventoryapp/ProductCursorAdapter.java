@@ -55,7 +55,7 @@ public class ProductCursorAdapter extends CursorAdapter {
             imageView.setVisibility(View.INVISIBLE);
         }
 
-        Button buttonSell = view.findViewById(R.id.button_sell);
+        Button buttonSell = ButterKnife.findById(view, R.id.button_sell);
         buttonSell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

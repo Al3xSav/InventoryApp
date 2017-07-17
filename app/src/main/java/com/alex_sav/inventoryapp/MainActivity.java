@@ -21,15 +21,23 @@ import android.widget.ListView;
 
 import com.alex_sav.inventoryapp.data.ProductContract.ProductEntry;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int PRODUCT_LOADER = 0;
     ProductCursorAdapter mCursorAdapter;
+    @BindView(R.id.list_product)
+    ListView productListView;
+    @BindView(R.id.empty_view)
+    View emptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -39,11 +47,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        ListView productListView = (ListView) findViewById(R.id.list_product);
-
-        View emptyView = findViewById(R.id.empty_view);
         productListView.setEmptyView(emptyView);
-
         mCursorAdapter = new ProductCursorAdapter(this, null);
         productListView.setAdapter(mCursorAdapter);
 

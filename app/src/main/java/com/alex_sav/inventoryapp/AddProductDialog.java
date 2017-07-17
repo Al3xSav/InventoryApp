@@ -82,7 +82,8 @@ public class AddProductDialog extends DialogFragment {
                         String priceString = editTextPrice.getText().toString().trim();
 
                         // validate all the required information
-                        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(quantityString) || TextUtils.isEmpty(priceString)) {
+                        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(quantityString)
+                                || TextUtils.isEmpty(priceString) || TextUtils.isEmpty(mImageURI)) {
 
                             Toast.makeText(getActivity(), "Please fill out all the required information", Toast.LENGTH_SHORT).show();
 
