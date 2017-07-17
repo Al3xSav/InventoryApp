@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import com.alex_sav.inventoryapp.data.ProductContract.ProductEntry;
 
+import butterknife.ButterKnife;
+
 public class AddProductDialog extends DialogFragment {
 
     String mImageURI;
@@ -37,14 +39,14 @@ public class AddProductDialog extends DialogFragment {
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         final View addView = layoutInflater.inflate(R.layout.add_product_dialog, null);
 
-        Button buttonSelectImage = addView.findViewById(R.id.button_image);
+        Button buttonSelectImage = ButterKnife.findById(addView, R.id.button_image);
         // set up click listener for the select image button
         buttonSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (checkPermission(getActivity())) {
                     startActivityForResult(new Intent
-                                    (Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
+                                    (Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI),
                             PermissionUtilities.MY_PERMISSIONS_READ_EXTERNAL_STORAGE);
                 }
             }
@@ -71,9 +73,9 @@ public class AddProductDialog extends DialogFragment {
                         // information is not completely filled out
                         Boolean closingDialog = false;
 
-                        EditText editTextName = addView.findViewById(R.id.dialog_edit_text_name);
-                        EditText editTextQuantity = addView.findViewById(R.id.dialog_edit_text_quantity);
-                        EditText editTextPrice = addView.findViewById(R.id.dialog_edit_text_price);
+                        EditText editTextName = ButterKnife.findById(addView, R.id.dialog_edit_text_name);
+                        EditText editTextQuantity = ButterKnife.findById(addView, R.id.dialog_edit_text_quantity);
+                        EditText editTextPrice = ButterKnife.findById(addView, R.id.dialog_edit_text_price);
 
                         String name = editTextName.getText().toString().trim();
                         String quantityString = editTextQuantity.getText().toString().trim();
@@ -161,7 +163,7 @@ public class AddProductDialog extends DialogFragment {
             case PermissionUtilities.MY_PERMISSIONS_READ_EXTERNAL_STORAGE: {
                 // if request is cancelled, the result arrays are empty
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startActivityForResult(new Intent(Intent.ACTION_PICK,
+                    startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT,
                                     android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
                             PermissionUtilities.MY_PERMISSIONS_READ_EXTERNAL_STORAGE);
                 } else {

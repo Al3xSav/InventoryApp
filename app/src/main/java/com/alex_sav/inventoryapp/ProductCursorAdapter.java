@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.alex_sav.inventoryapp.data.ProductContract.ProductEntry;
 
+import butterknife.ButterKnife;
+
 public class ProductCursorAdapter extends CursorAdapter {
 
     private Context mContext;
@@ -33,10 +35,10 @@ public class ProductCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         mContext = context;
 
-        TextView textViewName = (TextView) view.findViewById(R.id.text_view_name);
-        ImageView imageView = (ImageView) view.findViewById(R.id.image_list_item);
-        TextView textViewQuantity = (TextView) view.findViewById(R.id.text_view_quantity);
-        TextView textViewPrice = (TextView) view.findViewById(R.id.text_view_price);
+        TextView textViewName = ButterKnife.findById(view, R.id.text_view_name);
+        ImageView imageView = ButterKnife.findById(view, R.id.image_list_item);
+        TextView textViewQuantity = ButterKnife.findById(view, R.id.text_view_quantity);
+        TextView textViewPrice = ButterKnife.findById(view, R.id.text_view_price);
 
         final String productName = cursor.getString(cursor.getColumnIndexOrThrow(ProductEntry.COLUMN_PRODUCT_NAME));
         final String productImage = cursor.getString(cursor.getColumnIndexOrThrow(ProductEntry.COLUMN_PRODUCT_IMAGE));
@@ -53,7 +55,7 @@ public class ProductCursorAdapter extends CursorAdapter {
             imageView.setVisibility(View.INVISIBLE);
         }
 
-        Button buttonSell = (Button) view.findViewById(R.id.button_sell);
+        Button buttonSell = view.findViewById(R.id.button_sell);
         buttonSell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,10 +64,7 @@ public class ProductCursorAdapter extends CursorAdapter {
                     String string = object.toString();
                     ContentValues contentValues = new ContentValues();
 
-                    contentValues.put(ProductEntry.COLUMN_PRODUCT_NAME, productName);
-                    contentValues.put(ProductEntry.COLUMN_PRODUCT_IMAGE, productImage);
                     contentValues.put(ProductEntry.COLUMN_PRODUCT_QUANTITY, productQuantity >= 1 ? productQuantity - 1 : 0);
-                    contentValues.put(ProductEntry.COLUMN_PRODUCT_PRICE, productPrice);
 
                     Uri currentProductUri = ContentUris.withAppendedId(ProductEntry.CONTENT_URI, Integer.parseInt(string));
 

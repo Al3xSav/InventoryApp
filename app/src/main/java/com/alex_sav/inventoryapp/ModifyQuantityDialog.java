@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import butterknife.ButterKnife;
+
 public class ModifyQuantityDialog extends DialogFragment {
 
     int mQuantity;
@@ -45,8 +47,8 @@ public class ModifyQuantityDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.modify_quantity_dialog, null);
         mQuantity = getArguments().getInt("quantity");
-        final TextView QuantityTextView = view.findViewById(R.id.quantity_modify);
-        final NumberPicker numberPicker = view.findViewById(R.id.numberPicker);
+        final TextView QuantityTextView = ButterKnife.findById(view, R.id.quantity_modify);
+        final NumberPicker numberPicker = ButterKnife.findById(view, R.id.numberPicker);
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(50);
 

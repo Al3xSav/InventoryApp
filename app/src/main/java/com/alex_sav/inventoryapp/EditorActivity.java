@@ -37,18 +37,23 @@ import com.alex_sav.inventoryapp.data.ProductContract.ProductEntry;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class EditorActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor>, ModifyQuantityDialog.QuantityListener {
 
     private static final int EXISTING_PRODUCT_LOADER = 0;
-
+    @BindView(R.id.edit_text_name)
+    EditText mNameEditText;
+    @BindView(R.id.edit_text_quantity)
+    TextView mQuantityTextView;
+    @BindView(R.id.edit_text_price)
+    EditText mPriceEditText;
+    @BindView(R.id.main_image)
+    ImageView mImageView;
     private Uri mCurrentProductUri;
-    private EditText mNameEditText;
-    private TextView mQuantityTextView;
-    private EditText mPriceEditText;
-    private ImageView mImageView;
     private Uri mImageURI;
-
     private boolean mProductHasChanged = false;
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -63,23 +68,19 @@ public class EditorActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+        ButterKnife.bind(this);
 
         Intent intent = getIntent();
         mCurrentProductUri = intent.getData();
         setTitle(getString(R.string.edit_product));
         getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
 
-        mNameEditText = (EditText) findViewById(R.id.edit_text_name);
-        mQuantityTextView = (TextView) findViewById(R.id.edit_text_quantity);
-        mPriceEditText = (EditText) findViewById(R.id.edit_text_price);
-        mImageView = (ImageView) findViewById(R.id.main_image);
-
         // set click listener to select an image
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (checkPermission(EditorActivity.this)) {
-                    startActivityForResult(new Intent(Intent.ACTION_PICK,
+                    startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT,
                                     android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
                             PermissionUtilities.MY_PERMISSIONS_READ_EXTERNAL_STORAGE);
                 }
@@ -217,23 +218,6 @@ public class EditorActivity extends AppCompatActivity
         }
     }
 
-    private void deleteConfirmationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.delete_message));
-        builder.setPositiveButton(getString(R.string.button_delete), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                deleteProduct();
-            }
-        });
-        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-
     private void deleteProduct() {
         int rowsDeleted = getContentResolver().delete(mCurrentProductUri, null, null);
 
@@ -257,7 +241,8 @@ public class EditorActivity extends AppCompatActivity
 
     public boolean checkPermission(final Context context) {
         if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
 
                 if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context,
                         Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -294,7 +279,7 @@ public class EditorActivity extends AppCompatActivity
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    startActivityForResult(new Intent(Intent.ACTION_PICK,
+                    startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT,
                                     android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI),
                             PermissionUtilities.MY_PERMISSIONS_READ_EXTERNAL_STORAGE);
                 } else {
@@ -332,7 +317,7 @@ public class EditorActivity extends AppCompatActivity
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
-                // Save pet to database
+                // Save to database
                 saveProduct();
                 // Exit activity
                 finish();
@@ -403,8 +388,6 @@ public class EditorActivity extends AppCompatActivity
         builder.setPositiveButton(R.string.discard, discardButtonClickListener);
         builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Keep editing" button, so dismiss the dialog
-                // and continue editing the pet.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -416,9 +399,6 @@ public class EditorActivity extends AppCompatActivity
         alertDialog.show();
     }
 
-    /**
-     * Prompt the user to confirm that they want to delete this pet.
-     */
     private void showDeleteConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
@@ -426,14 +406,13 @@ public class EditorActivity extends AppCompatActivity
         builder.setMessage(R.string.delete_message);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Delete" button, so delete the pet.
+                // User clicked the "Delete" button
                 deleteProduct();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Cancel" button, so dismiss the dialog
-                // and continue editing the pet.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
